@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
+import axios from 'axios'
 
 const form = () => {
 
@@ -14,39 +15,32 @@ const form = () => {
     
     useEffect(() => {
         if(query.id){
-            const id = query.id
-            const cursos = JSON.parse(window.localStorage.getItem('cursos'))
-            const curso = cursos[id]
+            axios.get('/api/disciplinas/' + query.id).then(resultado => {
+                const disciplina = resultado.data
 
-            for(let atributo in curso){
-                setValue(atributo, curso[atributo])
-            }
+                for(let atributo in disciplina){
+                    setValue(atributo, disciplina[atributo])
+                }
+            })
         }
     }, [query.id])
 
     function salvar(dados) {
-        const cursos = JSON.parse(window.localStorage.getItem('cursos')) || []
-        cursos.splice(query.id, 1, dados)
-        window.localStorage.setItem('cursos', JSON.stringify(cursos))
-        push('/cursos')
+        axios.put('/api/disciplinas/' + query.id, dados)
+        push('/disciplinas')
     }
 
     return (
-        <Pagina titulo="Curso">
+        <Pagina titulo="Disciplinas">
             <Form>
                 <Form.Group className="mb-3" controlId="nome">
                     <Form.Label>Nome: </Form.Label>
                     <Form.Control type="text" {...register('nome')} />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="duracao">
-                    <Form.Label>Duração: </Form.Label>
-                    <Form.Control type="text" {...register('duracao')} />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="modalidade">
-                    <Form.Label>Modalidade: </Form.Label>
-                    <Form.Control type="text" {...register('modalidade')} />
+                <Form.Group className="mb-3" controlId="curso">
+                    <Form.Label>Curso: </Form.Label>
+                    <Form.Control type="text" {...register('curso')} />
                 </Form.Group>
 
                 <div className='text-center'>
@@ -54,7 +48,7 @@ const form = () => {
                         <BsCheckLg className="me-2" />
                         Salvar
                     </Button>
-                    <Link className="ms-2 btn btn-danger" href="/cursos">
+                    <Link className="ms-2 btn btn-danger" href="/disciplinas">
                         <AiOutlineArrowLeft className="me-2" />
                         Voltar
                     </Link>
