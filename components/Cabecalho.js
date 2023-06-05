@@ -13,7 +13,6 @@ const Cabecalho = () => {
             <Nav.Link className='nav-link' href="/disciplinas">Disciplinas</Nav.Link>
             <Nav.Link className='nav-link' href="/alunos">Alunos</Nav.Link>
             <Nav.Link className='nav-link' href="/professores">Professores</Nav.Link>
-            <Nav.Link className='nav-link' href="/turmas">Turmas</Nav.Link>
             <Nav.Link className='nav-link' href="/salas">Salas</Nav.Link>
             <Nav.Link className='nav-link' href="/semestres">Semestres</Nav.Link>
           </Nav>
