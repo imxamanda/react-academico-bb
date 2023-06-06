@@ -53,9 +53,9 @@ const index = () => {
                                 {' '}
                                 <BsFillTrash3Fill title="Excluir" onClick={() => excluir(item.id)} className='text-danger' />
                             </td>
-                            <td>{item.numero}</td>
-                            <td>{item.capacidade}</td>
-                            <td>{item.tipo}</td>
+                            <td>{item.nome}</td>
+                            <td>{item.dt_inicio}</td>
+                            <td>{item.dt_fim}</td>
                         </tr>
                     ))}
                 </tbody>
