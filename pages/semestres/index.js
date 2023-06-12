@@ -38,9 +38,9 @@ const index = () => {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Número</th>
-                        <th>Capacidade</th>
-                        <th>Tipo</th>
+                        <th>Nome</th>
+                        <th>Data de Início</th>
+                        <th>Data de Fim</th>
                     </tr>
                 </thead>
                 <tbody>

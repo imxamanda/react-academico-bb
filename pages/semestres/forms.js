@@ -7,14 +7,17 @@ import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import axios from 'axios'
+import semestreValidator from '@/validators/semestreValidator'
 
 const form = () => {
 
     const { push } = useRouter()
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: {errors} } = useForm()
 
     function salvar(dados) {
-        axios.post('/api/semestres', dados)
+        const salas = JSON.parse(window.localStorage.getItem('semestres')) || []
+        cursos.push(dados)
+        window.localStorage.setItem('semestres', JSON.stringify(semestres))
         push('/semestres')
     }
 
@@ -23,17 +26,29 @@ const form = () => {
         <Form>
             <Form.Group className="mb-3" controlId="nome">
                 <Form.Label>Nome: </Form.Label>
-                <Form.Control type="text" {...register('nome')} />
+                <Form.Control isInvalid={errors.nome} type="text" {...register('nome', semestreValidator.nome)} />
+                    {
+                        errors.nome &&
+                        <p className='text-danger'>{errors.nome.message}</p>
+                    }
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="dt_inicio">
                 <Form.Label>Data de Início: </Form.Label>
-                <Form.Control type="text" {...register('dt_inicio')} />
+                <Form.Control isInvalid={errors.dt_inicio} type="text" {...register('dt_inicio', semestreValidator.dt_inicio)} />
+                    {
+                        errors.dt_inicio &&
+                        <p className='text-danger'>{errors.dt_inicio.message}</p>
+                    }
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="dt_fim">
                 <Form.Label>Data de Fim: </Form.Label>
-                <Form.Control type="text" {...register('dt_fim')} />
+                <Form.Control isInvalid={errors.dt_fim} type="text" {...register('dt_fim', semestreValidator.dt_fim)} />
+                    {
+                        errors.dt_fim &&
+                        <p className='text-danger'>{errors.dt_fim.message}</p>
+                    }
             </Form.Group>
 
                 <div className='text-center'>

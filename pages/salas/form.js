@@ -7,14 +7,17 @@ import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import axios from 'axios'
+import salaValidator from '@/validators/salaValidator'
 
 const form = () => {
 
     const { push } = useRouter()
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: {errors} } = useForm()
 
     function salvar(dados) {
-        axios.post('/api/salas', dados)
+        const salas = JSON.parse(window.localStorage.getItem('salas')) || []
+        cursos.push(dados)
+        window.localStorage.setItem('salas', JSON.stringify(salas))
         push('/salas')
     }
 
@@ -23,17 +26,29 @@ const form = () => {
         <Form>
             <Form.Group className="mb-3" controlId="numero">
                 <Form.Label>Número: </Form.Label>
-                <Form.Control type="text" {...register('numero')} />
+                <Form.Control isInvalid={errors.numero} type="text" {...register('numero', salaValidator.numero)} />
+                    {
+                        errors.numero &&
+                        <p className='text-danger'>{errors.numero.message}</p>
+                    }
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="capacidade">
                 <Form.Label>Capacidade: </Form.Label>
-                <Form.Control type="text" {...register('capacidade')} />
+                <Form.Control isInvalid={errors.capacidade} type="text" {...register('capacidade', salaValidator.capacidade)} />
+                    {
+                        errors.capacidade &&
+                        <p className='text-danger'>{errors.capacidade.message}</p>
+                    }
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="tipo">
                 <Form.Label>Tipo: </Form.Label>
-                <Form.Control type="text" {...register('tipo')} />
+                <Form.Control isInvalid={errors.tipo} type="text" {...register('tipo', salaValidator.tipo)} />
+                    {
+                        errors.tipo &&
+                        <p className='text-danger'>{errors.tipo.message}</p>
+                    }
             </Form.Group>
 
                 <div className='text-center'>

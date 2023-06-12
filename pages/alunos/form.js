@@ -7,14 +7,17 @@ import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import axios from 'axios'
+import alunoValidator from '@/validators/alunoValidator'
 
 const form = () => {
 
     const { push } = useRouter()
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: {errors} } = useForm()
 
     function salvar(dados) {
-        axios.post('/api/alunos', dados)
+        const cursos = JSON.parse(window.localStorage.getItem('alunos')) || []
+        cursos.push(dados)
+        window.localStorage.setItem('alunos', JSON.stringify(alunos))
         push('/alunos')
     }
 
@@ -23,27 +26,47 @@ const form = () => {
             <Form>
                 <Form.Group className="mb-3" controlId="nome">
                     <Form.Label>Nome: </Form.Label>
-                    <Form.Control type="text" {...register('nome')} />
+                    <Form.Control isInvalid={errors.nome} type="text" {...register('nome', alunoValidator.nome)} />
+                    {
+                        errors.nome &&
+                        <p className='text-danger'>{errors.nome.message}</p>
+                    }
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="cpf">
                     <Form.Label>CPF: </Form.Label>
-                    <Form.Control type="text" {...register('cpf')} />
+                    <Form.Control isInvalid={errors.cpf} type="text" {...register('cpf', alunoValidator.cpf)} />
+                    {
+                        errors.cpf &&
+                        <p className='text-danger'>{errors.cpf.message}</p>
+                    }
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="matricula">
                     <Form.Label>Matricula: </Form.Label>
-                    <Form.Control type="text" {...register('matricula')} />
+                    <Form.Control isInvalid={errors.matricula} type="text" {...register('matricula', alunoValidator.matricula)} />
+                    {
+                        errors.matricula &&
+                        <p className='text-danger'>{errors.matricula.message}</p>
+                    }
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="email">
                     <Form.Label>email: </Form.Label>
-                    <Form.Control type="text" {...register('email')} />
+                    <Form.Control isInvalid={errors.email} type="text" {...register('email',  alunoValidator.email)} />
+                    {
+                        errors.email &&
+                        <p className='text-danger'>{errors.email.message}</p>
+                    }
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="telefone">
                     <Form.Label>Telefone: </Form.Label>
-                    <Form.Control type="text" {...register('telefone')} />
+                    <Form.Control isInvalid={errors.telefone} type="text" {...register('telefone', alunoValidator.telefone)} />
+                    {
+                        errors.telefone &&
+                        <p className='text-danger'>{errors.telefone.message}</p>
+                    }
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="cep">

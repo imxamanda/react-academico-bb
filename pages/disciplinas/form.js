@@ -7,14 +7,17 @@ import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import axios from 'axios'
+import disciplinaValidator from '@/validators/disciplinaValidator'
 
 const form = () => {
 
     const { push } = useRouter()
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState: {errors} } = useForm()
 
     function salvar(dados) {
-        axios.post('/api/disciplinas', dados)
+        const disciplinas = JSON.parse(window.localStorage.getItem('disciplinas')) || []
+        cursos.push(dados)
+        window.localStorage.setItem('disciplinas', JSON.stringify(disciplinas))
         push('/disciplinas')
     }
 
@@ -23,12 +26,20 @@ const form = () => {
             <Form>
                 <Form.Group className="mb-3" controlId="nome">
                     <Form.Label>Nome: </Form.Label>
-                    <Form.Control type="text" {...register('nome')} />
+                    <Form.Control isInvalid={errors.nome} type="text" {...register('nome', disciplinaValidator.nome)} />
+                    {
+                        errors.nome &&
+                        <p className='text-danger'>{errors.nome.message}</p>
+                    }
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="curso">
                     <Form.Label>Curso: </Form.Label>
-                    <Form.Control type="text" {...register('curso')} />
+                    <Form.Control  isInvalid={errors.curso} type="text" {...register('curso', disciplinaValidator.curso)} />
+                    {
+                        errors.curso &&
+                        <p className='text-danger'>{errors.curso.message}</p>
+                    }
                 </Form.Group>
 
                 <div className='text-center'>
