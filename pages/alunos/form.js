@@ -12,7 +12,7 @@ import alunoValidator from '@/validators/alunoValidator'
 const form = () => {
 
     const { push } = useRouter()
-    const { register, handleSubmit, formState: {errors} } = useForm()
+    const { register, handleSubmit, formState: {errors}, setValue } = useForm()
 
     function salvar(dados) {
         const cursos = JSON.parse(window.localStorage.getItem('alunos')) || []
@@ -21,12 +21,22 @@ const form = () => {
         push('/alunos')
     }
 
+    function handleChange(event){
+        const name = event.target.name
+        const valor = event.target.value
+        const mascara =event.target.getAttribute('mask')
+
+        setValue(name, mask(valor, mascara))
+    }
     return (
         <Pagina titulo="Aluno">
             <Form>
                 <Form.Group className="mb-3" controlId="nome">
                     <Form.Label>Nome: </Form.Label>
-                    <Form.Control isInvalid={errors.nome} type="text" {...register('nome', alunoValidator.nome)} />
+                    <Form.Control 
+                    isInvalid={errors.nome} 
+                    type="text" 
+                    {...register('nome', alunoValidator.nome)} />
                     {
                         errors.nome &&
                         <p className='text-danger'>{errors.nome.message}</p>
@@ -35,7 +45,11 @@ const form = () => {
 
                 <Form.Group className="mb-3" controlId="cpf">
                     <Form.Label>CPF: </Form.Label>
-                    <Form.Control isInvalid={errors.cpf} type="text" {...register('cpf', alunoValidator.cpf)} />
+                    <Form.Control 
+                    mask='999.999.999-99'
+                    isInvalid={errors.cpf} type="text"
+                     {...register('cpf', alunoValidator.cpf)}
+                     onChange={handleChange} />
                     {
                         errors.cpf &&
                         <p className='text-danger'>{errors.cpf.message}</p>
