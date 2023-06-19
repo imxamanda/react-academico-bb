@@ -26,7 +26,7 @@ const form = () => {
         const valor = event.target.value
         const mascara =event.target.getAttribute('mask')
 
-        setValue(name, mask(valor, mascara))
+        setValue(name, mask(valor, mascara));
     }
     return (
         <Pagina titulo="Aluno">
@@ -58,7 +58,8 @@ const form = () => {
 
                 <Form.Group className="mb-3" controlId="matricula">
                     <Form.Label>Matricula: </Form.Label>
-                    <Form.Control isInvalid={errors.matricula} type="text" {...register('matricula', alunoValidator.matricula)} />
+                    <Form.Control isInvalid={errors.matricula} type="text"
+                     {...register('matricula', alunoValidator.matricula)} />
                     {
                         errors.matricula &&
                         <p className='text-danger'>{errors.matricula.message}</p>
@@ -76,7 +77,11 @@ const form = () => {
 
                 <Form.Group className="mb-3" controlId="telefone">
                     <Form.Label>Telefone: </Form.Label>
-                    <Form.Control isInvalid={errors.telefone} type="text" {...register('telefone', alunoValidator.telefone)} />
+                    <Form.Control 
+                    mask='(99) 99999-9999'
+                    isInvalid={errors.telefone} type="text" 
+                    {...register('telefone', alunoValidator.telefone)}
+                    onChange={handleChange} />
                     {
                         errors.telefone &&
                         <p className='text-danger'>{errors.telefone.message}</p>

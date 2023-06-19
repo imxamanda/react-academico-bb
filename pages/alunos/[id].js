@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import axios from 'axios'
+import { mask } from 'remask'
 
 const form = () => {
 
@@ -16,10 +17,10 @@ const form = () => {
     useEffect(() => {
         if(query.id){
             axios.get('/api/alunos/' + query.id).then(resultado => {
-                const disciplina = resultado.data
+                const aluno = resultado.data
 
-                for(let atributo in disciplina){
-                    setValue(atributo, disciplina[atributo])
+                for(let atributo in aluno){
+                    setValue(atributo, aluno[atributo])
                 }
             })
         }
@@ -28,6 +29,14 @@ const form = () => {
     function salvar(dados) {
         axios.put('/api/alunos/' + query.id, dados)
         push('/alunos')
+    }
+
+    function handleChange(event) {
+        const name = event.target.name
+        const valor = event.target.value
+        const mascara = event.target.getAttribute('mask')
+    
+        setValue(name, mask(valor, mascara));
     }
 
     return (
