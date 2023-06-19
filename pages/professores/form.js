@@ -8,6 +8,7 @@ import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import axios from 'axios'
 import professorValidator from '@/validators/professorValidator'
+import { mask } from 'remask'
 
 const form = () => {
 
@@ -18,9 +19,17 @@ const form = () => {
         const cursos = JSON.parse(window.localStorage.getItem('professores')) || []
         cursos.push(dados)
         window.localStorage.setItem('professores', JSON.stringify(alunos))
-        push('/professores')
+        push('/professores')    
     }
 
+    function handleChange(event){
+        const name = event.target.name
+        const valor = event.target.value
+        const mascara =event.target.getAttribute('mask')
+
+        setValue(name, mask(valor, mascara));
+    }
+    
     return (
         <Pagina titulo="Professor">
         <Form>
@@ -35,7 +44,11 @@ const form = () => {
 
                 <Form.Group className="mb-3" controlId="cpf">
                     <Form.Label>CPF: </Form.Label>
-                    <Form.Control isInvalid={errors.cpf} type="text" {...register('cpf', professorValidator.cpf)} />
+                    <Form.Control
+                    mask='999.999.999-99'
+                    isInvalid={errors.cpf} type="text"
+                     {...register('cpf', professorValidator.cpf)}
+                     onChange={handleChange} />
                     {
                         errors.cpf &&
                         <p className='text-danger'>{errors.cpf.message}</p>

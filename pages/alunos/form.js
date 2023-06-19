@@ -8,6 +8,7 @@ import { BsCheckLg } from 'react-icons/bs'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import axios from 'axios'
 import alunoValidator from '@/validators/alunoValidator'
+import { mask } from 'remask'
 
 const form = () => {
 
@@ -90,7 +91,11 @@ const form = () => {
 
                 <Form.Group className="mb-3" controlId="cep">
                     <Form.Label>CEP: </Form.Label>
-                    <Form.Control type="text" {...register('cep')} />
+                    <Form.Control  
+                    mask='99999-999'
+                    isInvalid={errors.cep} type="text" 
+                    {...register('telefone', alunoValidator.cep)}
+                    onChange={handleChange} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="logadouro">
